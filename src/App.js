@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin, googleLogout } from '@react-oauth/google';
-import { decodeToken } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -18,7 +18,7 @@ function App() {
   const [userData, setUserData] = useState({});
 
   const onSuccess = (credentialResponse) => {
-    const decoded = decodeToken(credentialResponse.credential);
+    const decoded = jwtDecode(credentialResponse.credential);
     console.log('Login Success: currentUser:', decoded);
     setIsLoggedIn(true);
     setUserData(decoded);
