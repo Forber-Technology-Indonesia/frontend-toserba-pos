@@ -2,15 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin, googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-
+import Dashboard from './Pages/Dashboard';
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-const Dashboard = () => (
-  <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-    <h2 className="text-3xl font-bold mb-4">Dashboard: Protected Route</h2>
-    <p className="text-lg text-gray-700">You have successfully logged in!</p>
-  </div>
-);
+
 
 const ProtectedRoute = ({ isLoggedIn, children }) => {
   return isLoggedIn ? children : <Navigate to="/" />;
