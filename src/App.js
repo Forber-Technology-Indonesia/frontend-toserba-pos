@@ -7,8 +7,7 @@ const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({});
-  console.log("client ID");
-  console.log("==>" + CLIENT_ID);
+
 
 
   const onSuccess = (credentialResponse) => {
@@ -16,6 +15,9 @@ function App() {
     console.log('Login Success: currentUser:', decoded);
     setIsLoggedIn(true);
     setUserData(decoded);
+    console.log('================Google Sign Respond====================');
+    console.log(decoded);
+    console.log('====================================');
   };
 
   const onLogoutSuccess = () => {
