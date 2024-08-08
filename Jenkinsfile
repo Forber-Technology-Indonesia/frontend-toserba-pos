@@ -8,12 +8,12 @@ pipeline {
             steps {
                 script {
                     if (fileExists('frontend-toserba-pos')) {
-                            sh 'rm -r frontend-toserba-pos'
-                        // dir('frontend-toserba-pos') {
-                        //     sh 'git fetch'
-                        //     sh 'git checkout master'
-                        //     sh 'git pull origin master'
-                        // }
+                            // sh 'rm -r frontend-toserba-pos'
+                        dir('frontend-toserba-pos') {
+                            sh 'git fetch'
+                            sh 'git checkout master'
+                            sh 'git pull origin master'
+                        }
                     } else {
                         sh 'git clone -b master https://github.com/Forber-Technology-Indonesia/frontend-toserba-pos.git'
                     }
