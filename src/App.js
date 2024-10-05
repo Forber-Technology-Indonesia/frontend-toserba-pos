@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { GoogleOAuthProvider, GoogleLogin, googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import Dashboard from './Pages/Dashboard';
+import AuthGoogle from './api/AuthGoogle';
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 
@@ -18,7 +19,10 @@ function App() {
   const onSuccess = (credentialResponse) => {
     const decoded = jwtDecode(credentialResponse.credential);
     console.log('Login Success: currentUser:', decoded);
+    console.log('Google respond:', decoded);
     setIsLoggedIn(true);
+    const userData= AuthGoogle(decoded);
+    console.log('Backend Tospos respond:', userData);
     setUserData(decoded);
   };
 
