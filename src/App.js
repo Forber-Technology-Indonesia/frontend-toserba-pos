@@ -15,7 +15,9 @@ const ProtectedRoute = ({ isLoggedIn, children }) => {
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
-
+console.log('==============C ID=====================');
+console.log(CLIENT_ID);
+console.log('====================================');
   const onSuccess = (credentialResponse) => {
     const decoded = jwtDecode(credentialResponse.credential);
     console.log('Login Success: currentUser:', decoded);
