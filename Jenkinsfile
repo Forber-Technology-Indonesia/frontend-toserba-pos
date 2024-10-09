@@ -47,6 +47,9 @@ pipeline {
             steps {
                 script {
                         dir('frontend-toserba-pos') {
+                            if (fileExists('.env')){
+                                sh 'rm -r .env'
+                            }
                             sh 'touch .env'
                             withCredentials([string(credentialsId: 'GOOGLE_CLIENT_ID', variable: 'GC_ID')]) {
                                 sh 'echo "REACT_APP_GOOGLE_CLIENT_ID=${GC_ID}" >> .env'
