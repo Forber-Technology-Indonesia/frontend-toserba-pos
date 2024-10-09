@@ -48,11 +48,13 @@ pipeline {
                 script {
                     sh 'touch .env'
                     withCredentials([string(credentialsId: 'GOOGLE_CLIENT_ID', variable: 'GC_ID')]) {
-                        sh 'echo "REACT_APP_GOOGLE_CLIENT_ID=${GC_ID}" > .env'
+                        sh 'echo "REACT_APP_GOOGLE_CLIENT_ID=${GC_ID}" >> .env'
                     }
+                    sh 'cat frontend-toserba-pos/.env'
                     withCredentials([string(credentialsId: 'API1_BASEURL', variable: 'API1_BASEURL')]) {
-                        sh 'echo "REACT_APP_API1_URL=${GC_ID}" >> .env'
+                        sh 'echo "REACT_APP_API1_URL=${API1_BASEURL}" >> .env'
                     }
+                    sh 'cat frontend-toserba-pos/.env'
                     withCredentials([string(credentialsId: 'TOKEN', variable: 'TOKEN')]) {
                         sh 'echo "TOKEN=${TOKEN}" >> .env'
                     }
