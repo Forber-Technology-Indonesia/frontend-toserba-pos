@@ -37,28 +37,28 @@ def install_certbot():
 def create_apache_config():
     config = """
 <VirtualHost *:80>
-    ServerName jenkins.tospos.my.id
+    ServerName dev.tospos.my.id
 
     ProxyPreserveHost On
-    ProxyPass / http://35.209.213.218:8080/
-    ProxyPassReverse / http://35.209.213.218:8080/
+    ProxyPass / http://35.209.213.218:3000/
+    ProxyPassReverse / http://35.209.213.218:3000/
 
-    ErrorLog ${APACHE_LOG_DIR}/jenkins_error.log
-    CustomLog ${APACHE_LOG_DIR}/jenkins_access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/dev_error.log
+    CustomLog ${APACHE_LOG_DIR}/dev_access.log combined
 </VirtualHost>
 """
-    with open('/etc/apache2/sites-available/jenkins.tospos.my.id.conf', 'w') as f:
+    with open('/etc/apache2/sites-available/dev.tospos.my.id.conf', 'w') as f:
         f.write(config)
-    print("Apache configuration file created for jenkins.tospos.my.id")
+    print("Apache configuration file created for dev.tospos.my.id")
 
 def enable_site_and_reload():
-    run_command("a2ensite jenkins.tospos.my.id.conf")
+    run_command("a2ensite dev.tospos.my.id.conf")
     run_command("systemctl reload apache2")
 
 def obtain_ssl_certificate():
-    print("Obtaining SSL certificate for domain: jenkins.tospos.my.id...")
-    run_command("certbot --apache -d jenkins.tospos.my.id --non-interactive --agree-tos --email your-email@example.com")
-    print("SSL certificate obtained for jenkins.tospos.my.id")
+    print("Obtaining SSL certificate for domain: dev.tospos.my.id...")
+    run_command("certbot --apache -d dev.tospos.my.id --non-interactive --agree-tos --email your-email@example.com")
+    print("SSL certificate obtained for dev.tospos.my.id")
 
 def main():
     backup_apache_config()
@@ -67,7 +67,7 @@ def main():
     enable_site_and_reload()
     obtain_ssl_certificate()
     run_command("systemctl reload apache2")
-    print("Configuration for jenkins.tospos.my.id has been successfully applied.")
+    print("Configuration for dev.tospos.my.id has been successfully applied.")
 
 if __name__ == "__main__":
     main()

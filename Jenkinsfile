@@ -24,8 +24,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker stop pos1'
-                        sh 'docker rm pos1'
+                        sh 'docker stop node1'
+                        sh 'docker rm node1'
                     } catch (Exception e) {
                         echo "Container apache1 was not running or could not be stopped/removed: ${e}"
                     }
@@ -46,8 +46,8 @@ pipeline {
         stage('Copy .env File') {
             steps {
                 script {
-                    sh 'cat /mnt/env-aset/pos1/.env'
-                    sh 'cp /mnt/env-aset/pos1/.env frontend-toserba-pos/.env'
+                    sh 'cat /mnt/env-aset/node1/.env'
+                    sh 'cp /mnt/env-aset/node1/.env frontend-toserba-pos/.env'
                     sh 'cat frontend-toserba-pos/.env'
                 }
             }
@@ -61,7 +61,7 @@ pipeline {
         }
         stage('Run New Container') {
             steps {
-                sh 'docker run -d --name pos1  -p 3007:80 ranur/react'
+                sh 'docker run -d --name node1  -p 3000:80 ranur/react'
             }
         }
     }
