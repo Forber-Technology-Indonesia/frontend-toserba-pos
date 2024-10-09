@@ -27,34 +27,38 @@ def backup_apache_config():
 
 def install_certbot():
     print("Installing Certbot and Apache plugin...")
+    run_command('echo "LoadModule proxy_http_module modules/mod_proxy_http.so" >> /etc/apache2/apache.conf')
+    run_command("sudo a2enmod proxy_http")
+    run_command("systemctl reload apache2")
+    
     run_command("apt update")
     run_command("apt install -y certbot python3-certbot-apache")
 
 def create_apache_config():
     config = """
 <VirtualHost *:80>
-    ServerName jenkins.numpang.my.id
+    ServerName jenkins.tospos.my.id
 
     ProxyPreserveHost On
-    ProxyPass / http://34.67.3.210:8080/
-    ProxyPassReverse / http://34.67.3.210:8080/
+    ProxyPass / http://35.209.213.218:8080/
+    ProxyPassReverse / http://35.209.213.218:8080/
 
     ErrorLog ${APACHE_LOG_DIR}/jenkins_error.log
     CustomLog ${APACHE_LOG_DIR}/jenkins_access.log combined
 </VirtualHost>
 """
-    with open('/etc/apache2/sites-available/jenkins.numpang.my.id.conf', 'w') as f:
+    with open('/etc/apache2/sites-available/jenkins.tospos.my.id.conf', 'w') as f:
         f.write(config)
-    print("Apache configuration file created for jenkins.numpang.my.id")
+    print("Apache configuration file created for jenkins.tospos.my.id")
 
 def enable_site_and_reload():
-    run_command("a2ensite jenkins.numpang.my.id.conf")
+    run_command("a2ensite jenkins.tospos.my.id.conf")
     run_command("systemctl reload apache2")
 
 def obtain_ssl_certificate():
-    print("Obtaining SSL certificate for domain: jenkins.numpang.my.id...")
-    run_command("certbot --apache -d jenkins.numpang.my.id --non-interactive --agree-tos --email your-email@example.com")
-    print("SSL certificate obtained for jenkins.numpang.my.id")
+    print("Obtaining SSL certificate for domain: jenkins.tospos.my.id...")
+    run_command("certbot --apache -d jenkins.tospos.my.id --non-interactive --agree-tos --email your-email@example.com")
+    print("SSL certificate obtained for jenkins.tospos.my.id")
 
 def main():
     backup_apache_config()
@@ -63,7 +67,7 @@ def main():
     enable_site_and_reload()
     obtain_ssl_certificate()
     run_command("systemctl reload apache2")
-    print("Configuration for jenkins.numpang.my.id has been successfully applied.")
+    print("Configuration for jenkins.tospos.my.id has been successfully applied.")
 
 if __name__ == "__main__":
     main()
