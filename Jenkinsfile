@@ -11,11 +11,11 @@ pipeline {
                             // sh 'rm -r frontend-toserba-pos'
                         dir('frontend-toserba-pos') {
                             sh 'git fetch'
-                            sh 'git checkout master'
-                            sh 'git pull origin master'
+                            sh 'git checkout development'
+                            sh 'git pull origin development'
                         }
                     } else {
-                        sh 'git clone -b master https://github.com/Forber-Technology-Indonesia/frontend-toserba-pos.git'
+                        sh 'git clone -b development https://github.com/Forber-Technology-Indonesia/frontend-toserba-pos.git'
                     }
                 }
             }
