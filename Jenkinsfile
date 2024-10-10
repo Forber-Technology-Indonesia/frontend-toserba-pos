@@ -36,9 +36,9 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker rmi ranur/reactjs'
+                        sh 'docker rmi front_react'
                     } catch (Exception e) {
-                        echo "Image ranur/reactjs could not be removed: ${e}"
+                        echo "Image front_react could not be removed: ${e}"
                     }
                 }
             }
@@ -73,13 +73,13 @@ pipeline {
         stage('Build Docker New Image') {
             steps {
                 dir('frontend-toserba-pos') {
-                    sh 'docker build -t ranur/reactjs .'
+                    sh 'docker build -t front_react .'
                 }
             }
         }
         stage('Run New Container') {
             steps {
-                sh 'docker run -d --name node1  -p 3000:80 ranur/reactjs'
+                sh 'docker run -d --name node1  -p 3000:80 front_react'
             }
         }
     }
