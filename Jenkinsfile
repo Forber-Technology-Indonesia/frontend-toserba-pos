@@ -5,6 +5,9 @@ pipeline {
         DOCKERHUB_USER = 'ranur'
         imageName = "ranur/frontend-toserba-pos:latest"
         BRANCH = "development"
+        NODE="node1"
+        PORT="80"
+        PORT_PULISH="3000"
     }
     
     stages {
@@ -28,10 +31,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker stop node1'
-                        sh 'docker rm node1'
+                        sh 'docker stop ${NODE}'
+                        sh 'docker rm ${NODE}'
                     } catch (Exception e) {
-                        echo "Container node1 was not running or could not be stopped/removed: ${e}"
+                        echo "Container ${NODE} was not running or could not be stopped/removed: ${e}"
                     }
                 }
             }
@@ -78,7 +81,7 @@ pipeline {
 
         stage('Run New Container') {
             steps {
-                sh "docker run -d --name node1 -p 3000:80 ${imageName}"
+                sh "docker run -d --name ${NODE} -p ${PORT_PULISH}:${PORT} ${imageName}"
             }
         }
 
@@ -99,14 +102,6 @@ pipeline {
                 }
             }
         }
-
-        // stage('Cleanup') {
-        //     steps {
-        //         script {
-        //             sh "docker rmi ${imageName}"
-        //         }
-        //     }
-        // }
     }
 
     post {
