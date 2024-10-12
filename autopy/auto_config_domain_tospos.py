@@ -55,8 +55,8 @@ def obtain_ssl_certificate():
     print("SSL certificate obtained for tospos.my.id")
 
 def main():
-    install_certbot()
-    obtain_ssl_certificate()
+    # install_certbot()
+    # obtain_ssl_certificate()
     create_apache_config()
     enable_site_and_reload()
 

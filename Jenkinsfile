@@ -4,6 +4,7 @@ pipeline {
         // Set environment variables for Docker Hub credentials
         DOCKERHUB_USER = 'ranur'
         imageName = "ranur/frontend-toserba-pos:latest"
+        BRANCH = "development"
     }
     
     stages {
@@ -13,11 +14,11 @@ pipeline {
                     if (fileExists('frontend-toserba-pos')) {
                         dir('frontend-toserba-pos') {
                             sh 'git fetch'
-                            sh 'git checkout development'
-                            sh 'git pull origin development'
+                            sh 'git checkout ${BRANCH}'
+                            sh 'git pull origin ${BRANCH}'
                         }
                     } else {
-                        sh 'git clone -b development https://github.com/Forber-Technology-Indonesia/frontend-toserba-pos.git'
+                        sh 'git clone -b ${BRANCH} https://github.com/Forber-Technology-Indonesia/frontend-toserba-pos.git'
                     }
                 }
             }
@@ -99,13 +100,13 @@ pipeline {
             }
         }
 
-        stage('Cleanup') {
-            steps {
-                script {
-                    sh "docker rmi ${imageName}"
-                }
-            }
-        }
+        // stage('Cleanup') {
+        //     steps {
+        //         script {
+        //             sh "docker rmi ${imageName}"
+        //         }
+        //     }
+        // }
     }
 
     post {
