@@ -2,7 +2,11 @@
 
 pipeline {
     agent any
-
+    def imageName = "ranur/${imageName}:latest"
+     environment {
+        // Set environment variables for Docker Hub credentials
+        DOCKERHUB_USER = 'ranur'
+    }
     stages {
         stage('Clone or Pull') {
             steps {
@@ -36,9 +40,9 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker rmi front_react'
+                        sh 'docker rmi ${imageName}'
                     } catch (Exception e) {
-                        echo "Image front_react could not be removed: ${e}"
+                        echo "Image ${imageName} could not be removed: ${e}"
                     }
                 }
             }
@@ -77,13 +81,47 @@ pipeline {
         stage('Build Docker New Image') {
             steps {
                 dir('frontend-toserba-pos') {
-                    sh 'docker build -t front_react .'
+                    sh 'docker build -t ${imageName} .'
                 }
             }
         }
         stage('Run New Container') {
             steps {
-                sh 'docker run -d --name node1  -p 3000:80 front_react'
+                sh 'docker run -d --name node1  -p 3000:80 ${imageName}'
+            }
+        }
+        stage('Push Image and Remove') {
+            steps {
+                sh 'docker run -d --name node1  -p 3000:80 ${imageName}'
+            }
+        }
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    // Login to Docker Hub using credentials
+
+                    withCredentials([string(credentialsId: 'DOCKERHUB_TOKEN', variable: 'DOC_PWD')]) {
+                        sh "echo ${DOC_PWD} | docker login -u ${DOCKERHUB_USER} --password-stdin"
+                     }
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Push the Docker image to Docker Hub
+                    sh "docker push ${imageName}"
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    // Remove Docker image locally after pushing
+                    sh "docker rmi ${imageName}"
+                }
             }
         }
     }
