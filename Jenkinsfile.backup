@@ -1,0 +1,22 @@
+
+
+pipeline {
+    agent any
+        stage('Check Container') {
+            steps {
+                sh 'docker ps'
+            }
+        }
+    
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
+    }
+}
